@@ -75,7 +75,7 @@ for i in perms:
 	if(i in jd):
 		final.append(i)
 
-print(final)
+print("The result : \n",final)
 # show the output images
 print("--- %s seconds ---" % (time.time() - start_time))
 if args.showoutput:
