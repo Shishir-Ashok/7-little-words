@@ -13,8 +13,8 @@ import re
 
 def findmeaning():
 
-	app_id = '9b1e473b'
-	app_key = '1aa43ee3cfd2bd7e5241798f0f3e3bd4'
+	app_id = '<app_id>'
+	app_key = '<app_key>'
 	language = 'en'
 
 	for i in final:
