@@ -3,14 +3,44 @@ from PIL import Image
 from itertools import permutations
 import pytesseract
 import argparse
+import requests
+import enchant
 import time
-import json
 import cv2
 import os
 import re
 
+
+def findmeaning():
+
+	app_id = '9b1e473b'
+	app_key = '1aa43ee3cfd2bd7e5241798f0f3e3bd4'
+	language = 'en'
+
+	for i in final:
+		url = 'https://od-api.oxforddictionaries.com:443/api/v2/entries/'  + language + '/'  + i.lower()
+		#url Normalized frequency
+		urlFR = 'https://od-api.oxforddictionaries.com:443/api/v2/stats/frequency/word/'  + language + '/?corpus=nmc&lemma=' + i.lower()
+		r = requests.get(url, headers = {'app_id' : app_id, 'app_key' : app_key})
+		response = r.json()
+		print(i.upper(),":\n")
+		for n in range (10):
+			try:
+				print("[{}]".format(n), response['results'][n]['lexicalEntries'][0]['entries'][0]['senses'][0]['definitions'][0])
+			except IndexError:
+				break
+			except KeyError:
+				continue
+
  
 start_time = time.time()
+
+
+
+
+dictionary = enchant.Dict("en_US")
+
+
 pytesseract.pytesseract.tesseract_cmd = '/usr/local/bin/tesseract'
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True,
@@ -44,38 +74,37 @@ cv2.imwrite(filename, gray)
 # load the image as a PIL/Pillow image, apply OCR, and then delete
 # the temporary file
 
-text = pytesseract.image_to_string(Image.open(filename), lang='eng', config='A-Z -pms 7')
+text = pytesseract.image_to_string(Image.open(filename), lang='eng')
 os.remove(filename)
 print(text)
-# print("\n\n",text[0])
-# print("\nText[1]",text[1],text[2],type(text))
 
 listOfText = text.split()
+# listOfText = ['OR','RUN','JAU','SE','AS','DEO','CE','AR','IG','NTI','INV','LY','PAN','OFF','BOO','TI','ATE','CA','VI','TTA']
 
 
 perms = []
-for i in range(2,4):
+for i in range(2,5):
 	perms.append([''.join(p) for p in permutations(listOfText,i)])
 
 perms = sum(perms,[])
-print(perms[0],perms[1],perms[4],perms[88],perms[888])
 print("Length of perms : ",len(perms))
-print("Length of set(perms) : ",len(set(perms)))
-print(listOfText)
 
 final = []
-# file = open('words.txt')
-# lines = file.read()
-
-jd = json.loads(open('words copy.json').read())
 
 for i in perms:
-	# if (re.findall('\\b{}\\b'.format(i), lines)):
-	# if (re.search('\\b{}\\b'.format(i), lines)):
-	if(i in jd):
+	if(dictionary.check(i)):
 		final.append(i)
-
+print("LIST : ",listOfText)
+final.sort(key=len)
 print("The result : \n",final)
+
+# word_id = 'Shanghai'
+
+
+
+
+
+
 # show the output images
 print("--- %s seconds ---" % (time.time() - start_time))
 if args.showoutput:
