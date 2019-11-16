@@ -3,6 +3,7 @@
 test.*
 try.*
 *.txt
+!requirements.txt
 green_rectangle.py
 words_dictionary.json
 main.py
