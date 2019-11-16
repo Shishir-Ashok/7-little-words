@@ -21,16 +21,16 @@ arp-scan uses the standard GNU automake and autoconf tools, so the typical insta
 Documentation
 ---------------
 ```
-Usage: arpscan [options]
+Usage: $ python image.py [options]
 
 Options:
 
-  -h, --help  output usage information
-  -i, --image [IMAGE]   path to the input image
+  -h, --help      output usage information
+  -i, --image [IMAGE]      path to the input image
   -p, --preprocessing [PERPROCESSING] mode of processing the image
-  -v, --verbose   verbose mode
-  -q, --quiet   Test to see if arp-scan is installed
-  -s, --show  Output original and processed image
+  -v, --verbose       verbose mode
+  -q, --quiet         Test to see if arp-scan is installed
+  -s, --show    Output original and processed image
 
 ```
 
