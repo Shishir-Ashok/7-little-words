@@ -1,30 +1,50 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+# Copyright (c) 2019, Shishir Ashok
+# All rights reserved.
+
 # import the necessary packages
-from itertools import permutations
 from PIL import Image
+from itertools import permutations
 import pytesseract
 import argparse
+import requests
 import enchant
 import time
+import json
 import cv2
 import os
 import re
- 
+
+
 start_time = time.time()
 
-dictionary = enchant.Dict("en_US")
-pytesseract.pytesseract.tesseract_cmd = '/usr/local/bin/tesseract'
+def findmeaning(finallist):
+	data = json.load(open("dictionary.json"))
+	for word in finallist:
+		try:
+			meaningslist.append(data[word.lower()])
+		except KeyError:
+			meaningslist.append("Sorry, no meaning found")
 
+
+
+dictionary = enchant.Dict("en_US")
+
+
+pytesseract.pytesseract.tesseract_cmd = '/usr/local/bin/tesseract'
 ap = argparse.ArgumentParser()
 group = ap.add_mutually_exclusive_group()
-group.add_argument("-v", "--verbose", action="store_true",
-	help="Display count of words")
+group.add_argument("-v", "--verbose", action="store_true")
 group.add_argument("-q", "--quiet", action="store_true")
 ap.add_argument("-i", "--image", required=True,
-	help="Path to input image to be OCR'd")
+	help="-Usage : /Path/to/input/image")
 ap.add_argument("-p", "--preprocess", type=str, default="thresh",
-	help="Type of preprocessing to be done (thresh <default> | blur)")
-ap.add_argument("-s", "--showoutput", action="store_true",
-	help="Display output image files")
+	help="-Usage : thresh | blur")
+ap.add_argument("-s", "--show", action="store_true",
+	help="-Display image files (2) (Before and after preprocessing)")
+
 args = ap.parse_args()
 
 # load the example image and convert it to grayscale
@@ -53,26 +73,40 @@ cv2.imwrite(filename, gray)
 text = pytesseract.image_to_string(Image.open(filename), lang='eng')
 os.remove(filename)
 
+
 listOfText = text.split()
 # listOfText = ['OR','RUN','JAU','SE','AS','DEO','CE','AR','IG','NTI','INV','LY','PAN','OFF','BOO','TI','ATE','CA','VI','TTA']
+
+
 perms = []
 for i in range(2,5):
 	perms.append([''.join(p) for p in permutations(listOfText,i)])
 
 perms = sum(perms,[])
+
+
 final = []
+meaningslist = []
 for i in perms:
 	if(dictionary.check(i)):
 		final.append(i)
 final.sort(key=len)
+findmeaning(final)
 
 if args.verbose:
-	print("Data in image : ",text)
+	print("Data from the image : ",text)
 	print("Length of perms : ",len(perms))
 	print("Number of words found : ",len(final))
+	
 	print("List of words based on the number of letters :")
 	for word in final:
-		print("{} : {}".format(len(word),word))
+		print(word, end=", ")
+	print("DEFINITIONS")
+	print(final)
+	for i in range(len(final)):
+		print("{} \n {}".format(final[i],meaningslist[i]))
+
+
 
 if args.quiet:
 	print("List of words :")
@@ -80,9 +114,9 @@ if args.quiet:
 		print(word, end=", ")
 
 # show the output images
-if args.showoutput:
+if args.show:
 	cv2.imshow("Image", image)
 	cv2.imshow("Output", gray)
 	cv2.waitKey(0)
 
-print("Processing time\n--- %s seconds ---" % (time.time() - start_time))
+print("Processing time --- %s seconds ---" % (time.time() - start_time))

@@ -1,11 +1,7 @@
-# 7-little-words
+# Words-Verbose
 
-7 Little Words is a puzzle that is printed on The Economic Times newspaper where a person is required to find
-7 words that match the 7 clues given. The number of parentheses er==represent the number of letters in each
-solution. Each letter combination can be used only one, but all letter combinations will be necessary to 
-complete the puzzle.
-
-Take a clear photo of the puzzle and save it. 
+A program that finds words and their meaning using the letters recognized from an image taken by the user. 
+Take a clear photo of the letters and save it. 
 Provide the path to that image file during the execution of this code. See #Examples for better understanding.
 
 Installation
@@ -13,8 +9,8 @@ Installation
 
 arp-scan uses the standard GNU automake and autoconf tools, so the typical installation process is:
 
-- Run ```$ git clone https://github.com/Shishir-Ashok/7-little-words.git``` to obtain the latest project source code
-- Run ```$ cd 7-little-words``` to enter the source directory
+- Run ```$ git clone https://github.com/Shishir-Ashok/Words-Verbose.git``` to obtain the latest project source code
+- Run ```$ cd Words-Verbose``` to enter the source directory
 - Run ```$ pip install -r requirements.txt``` to install the necessary modules to run the program
 
 
