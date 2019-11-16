@@ -25,12 +25,12 @@ Usage: arpscan [options]
 
 Options:
 
-  -h, --help 								              output usage information
-  -i, --image [IMAGE] 						        path to the input image
-  -p, --preprocessing [PERPROCESSING] 		mode of processing the image
-  -v, --verbose 							            verbose mode
-  -q, --quiet 								            Test to see if arp-scan is installed
-  -s, --show 								              Output original and processed image
+  -h, --help  output usage information
+  -i, --image [IMAGE]   path to the input image
+  -p, --preprocessing [PERPROCESSING] mode of processing the image
+  -v, --verbose   verbose mode
+  -q, --quiet   Test to see if arp-scan is installed
+  -s, --show  Output original and processed image
 
 ```
 
