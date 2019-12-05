@@ -7,7 +7,7 @@ Provide the path to that image file during the execution of this code. See #Exam
 Installation
 ------------
 
-arp-scan uses the standard GNU automake and autoconf tools, so the typical installation process is:
+The installation process is:
 
 - Run ```$ git clone https://github.com/Shishir-Ashok/Words-Verbose.git``` to obtain the latest project source code
 - Run ```$ cd Words-Verbose``` to enter the source directory
@@ -38,5 +38,5 @@ $ python image.py --image img1.png --preprocess blur --verbose --show
 ```
 
 ```
-$ python image.py --i /Desktop/images/img1.png --p thresh -q 
+$ python image.py --i /Desktop/images/img1.png -p thresh -q 
 ```
