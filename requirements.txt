@@ -1,4 +1,4 @@
-Pillow==10.0.1
+Pillow==10.3.0
 pycparser==2.19
 pyenchant==2.0.0
 pytesseract==0.3.0
